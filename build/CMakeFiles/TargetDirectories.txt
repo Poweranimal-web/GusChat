@@ -1,0 +1,3 @@
+D:/VoiceRecord/build/CMakeFiles/VOIP.dir
+D:/VoiceRecord/build/CMakeFiles/edit_cache.dir
+D:/VoiceRecord/build/CMakeFiles/rebuild_cache.dir

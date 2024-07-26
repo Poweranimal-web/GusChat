@@ -1,0 +1,9 @@
+D:/VoiceRecord/portaudio/CMakeFiles/portaudio.dir
+D:/VoiceRecord/portaudio/CMakeFiles/portaudio_static.dir
+D:/VoiceRecord/portaudio/CMakeFiles/uninstall.dir
+D:/VoiceRecord/portaudio/CMakeFiles/edit_cache.dir
+D:/VoiceRecord/portaudio/CMakeFiles/rebuild_cache.dir
+D:/VoiceRecord/portaudio/CMakeFiles/list_install_components.dir
+D:/VoiceRecord/portaudio/CMakeFiles/install.dir
+D:/VoiceRecord/portaudio/CMakeFiles/install/local.dir
+D:/VoiceRecord/portaudio/CMakeFiles/install/strip.dir
