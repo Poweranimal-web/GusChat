@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Clone</title>
+    <link rel="stylesheet" href="/css/chat.css">
+    <script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js" crossorigin="anonymous"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="top-bar">
+                <button class="settings-button" onclick="openSettings()">
+                    <div class="settings-icon">
+                        <div class="settings-line"></div>
+                        <div class="settings-line"></div>
+                        <div class="settings-line"></div>
+                    </div>
+                </button>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search chats...">
+                </div>
+            </div>
+            <div class="chat-list">
+                <div class="chat" onclick="openChat('chat1', this)">
+                    <div class="chat-icon"></div>
+                    Chat 1
+                </div>
+                <div class="chat" onclick="openChat('chat2', this)">
+                    <div class="chat-icon"></div>
+                    Chat 2
+                </div>
+            </div>
+        </div>
+        <div class="chat-area" id="chatArea">
+            <div class="welcome-message" id="welcomeMessage">
+                <h1>Welcome to Telegram Clone</h1>
+            </div>
+            <div class="chat-header" id="chatHeader" style="display: none;">
+                <div class="chat-header-icon"></div>
+                <div class="chat-header-title">Chat Title</div>
+                <button class="call-button">
+                    <ion-icon name="call-outline"></ion-icon>
+                </button>
+            </div>
+            <div class="chat-back" id="chatBack">
+                <div class="chat-window" id="chat1" style="display: none;">
+                    <div class="message-container user">
+                        <div class="message">
+                            Hello, this is chat 1!
+                        </div>
+                        <img class="message-icon user-icon" >
+                    </div>
+                    <div class="message-container other">
+                        <img  class="message-icon other-icon" >
+                        <div class="message">
+                            Hi, this is chat 2!
+                        </div>
+                    </div>
+                    <div class="message-container user">
+                        <div class="message">
+                            How are you?
+                        </div>
+                        <img  class="message-icon user-icon" >
+                    </div>
+                </div>
+                <div class="chat-window" id="chat2" style="display: none;">
+                    <div class="message-container other">
+                        <img class="message-icon other-icon" >
+                        <div class="message">
+                            What's up?
+                        </div>
+                    </div>
+                    <div class="message-container user">
+                        <div class="message">
+                            Not much, just chatting!
+                        </div>
+                        <img  class="message-icon user-icon">
+                    </div>
+                </div>
+                
+                
+            </div>
+            <div class="input-area" id="inputArea" style="display: none;">
+                <input type="text" id="inputText" placeholder="Type a message...">
+                <button class="emoji-button" onclick="toggleEmojiMenu()">
+                    <ion-icon name="happy-outline"></ion-icon>
+                </button>
+                <div class="emoji-menu" id="emojiMenu" style="display: none;">
+                    <span id="emoji1" onclick="emoji(this.id)">&#128512</span>
+                    <span id="emoji2" onclick="emoji(this.id)">&#128513</span>
+                    <span id="emoji3" onclick="emoji(this.id)">&#128514</span>
+                    <span id="emoji4" onclick="emoji(this.id)">&#128515</span>
+                    <span id="emoji5" onclick="emoji(this.id)">&#128516</span>
+                    <span id="emoji6" onclick="emoji(this.id)">&#128517</span>
+                    <span id="emoji7" onclick="emoji(this.id)">&#128518</span>
+                    <span id="emoji8" onclick="emoji(this.id)">&#128519</span>
+                    <span id="emoji9" onclick="emoji(this.id)">&#128520</span>
+                    <span id="emoji10" onclick="emoji(this.id)">&#128521</span>
+                    <span id="emoji11" onclick="emoji(this.id)">&#128522</span>
+                    <span id="emoji12" onclick="emoji(this.id)">&#128523</span>
+                    <span id="emoji13" onclick="emoji(this.id)">&#128524</span>
+                    <span id="emoji14" onclick="emoji(this.id)">&#128525</span>
+                    <span id="emoji15" onclick="emoji(this.id)">&#128526</span>
+                    <span id="emoji16" onclick="emoji(this.id)">&#128527</span>
+                    <span id="emoji17" onclick="emoji(this.id)">&#128528</span>
+                    <span id="emoji18" onclick="emoji(this.id)">&#128529</span>
+                    <span id="emoji19" onclick="emoji(this.id)">&#128530</span>
+                    <span id="emoji20" onclick="emoji(this.id)">&#128531</span>
+                    <span id="emoji21" onclick="emoji(this.id)">&#128532</span>
+                    <span id="emoji22" onclick="emoji(this.id)">&#128533</span>
+                    <span id="emoji23" onclick="emoji(this.id)">&#128534</span>
+                    <span id="emoji24" onclick="emoji(this.id)">&#128535</span>
+                    <span id="emoji25" onclick="emoji(this.id)">&#128536</span>
+                    <span id="emoji26" onclick="emoji(this.id)">&#128537</span>
+                    <span id="emoji27" onclick="emoji(this.id)">&#128538</span>
+                    <span id="emoji28" onclick="emoji(this.id)">&#128539</span>
+                    <span id="emoji29" onclick="emoji(this.id)">&#128540</span>
+                    <span id="emoji30" onclick="emoji(this.id)">&#128541</span>
+                    <span id="emoji31" onclick="emoji(this.id)">&#128542</span>
+                    <span id="emoji32" onclick="emoji(this.id)">&#128543</span>
+                    <span id="emoji33" onclick="emoji(this.id)">&#128544</span>
+                    <span id="emoji34" onclick="emoji(this.id)">&#128545</span>
+                    <span id="emoji35" onclick="emoji(this.id)">&#128546</span>
+                    <span id="emoji36" onclick="emoji(this.id)">&#128547</span>
+                    <span id="emoji37" onclick="emoji(this.id)">&#128548</span>
+                    <span id="emoji38" onclick="emoji(this.id)">&#128549</span>
+                    <span id="emoji39" onclick="emoji(this.id)">&#128550</span>
+                    <span id="emoji40" onclick="emoji(this.id)">&#128551</span>
+                    <span id="emoji41" onclick="emoji(this.id)">&#128552</span>
+                    <span id="emoji42" onclick="emoji(this.id)">&#128553</span>
+                    <span id="emoji43" onclick="emoji(this.id)">&#128554</span>
+                    <span id="emoji44" onclick="emoji(this.id)">&#128555</span>
+                    <span id="emoji45" onclick="emoji(this.id)">&#128556</span>
+                </div>
+                <button class="attachment-button" onclick="toggleAttachmentMenu()">
+                    <ion-icon name="attach-outline"></ion-icon>
+                </button>
+                <button class="microphone-button">
+                    <ion-icon name="mic-outline"></ion-icon>
+                </button>
+                <div class="attachment-menu" id="attachmentMenu" style="display: none;">
+                    <button>Photo & Video</button>
+                    <button >Document</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="settingsModal" style="display: none;">
+        <div class="modal-sidebar" id="modalSidebar">
+            <div class="modal-header">
+                <div class="user-icon"></div>
+                <div class="user-name">Username</div>
+            </div>
+            <div class="modal-content">
+                <button>
+                    <ion-icon name="people-outline"></ion-icon>
+                    Create group chat
+                </button>
+                <button>
+                    <ion-icon name="person-outline"></ion-icon>
+                    Contacts
+                </button>
+                <button>
+                    <ion-icon name="call-outline"></ion-icon>
+                    Calls
+                </button>
+                <button>
+                    <ion-icon name="bookmark-outline"></ion-icon>
+                    Saved messages
+                </button>
+                <button>
+                    <ion-icon name="settings-outline"></ion-icon>
+                    Settings
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="/js/chat.js"></script>
+</body>
+</html>

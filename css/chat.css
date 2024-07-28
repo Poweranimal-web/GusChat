@@ -1,0 +1,397 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #071952, #37B7C3);
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.sidebar {
+    width: 25%;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border-right: 1px solid #ccc;
+}
+
+.top-bar {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.settings-button {
+    padding: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px; /* Space between button and search bar */
+    width: 40px; /* Adjust size as needed */
+    height: 30px; /* Adjust size as needed */
+}
+
+.settings-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.settings-line {
+    width: 24px; /* Adjust width as needed */
+    height: 4px; /* Adjust height as needed */
+    background-color: #EBF4F6;
+    border-radius: 2px;
+}
+
+.settings-button:hover .settings-line {
+    background-color: #37b7c3;
+}
+
+.search-bar {
+    flex-grow: 1; /* Take up remaining space */
+    display: flex;
+    align-items: center;
+}
+
+.search-bar input {
+    width: 100%; /* Adjust to fill container */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.chat-list {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.chat {
+    color: white;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s, color 0.2s; 
+}
+
+.chat:hover {
+    color: black;
+    background-color: #088395;
+}
+
+.chat.selected {
+    color: black;
+    background-color: #37b7c3;
+}
+
+.chat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ccc;
+    margin-right: 10px;
+}
+
+.chat-area {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.welcome-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.chat-window {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: none;
+    background: transparent;
+}
+
+.message-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.message-container.user {
+    justify-content: flex-end;
+}
+
+.message-container.other {
+    justify-content: flex-start;
+}
+
+.message {
+    max-width: 60%;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.message-container.user .message {
+    background-color: #3ca93c;
+    color: #000;
+}
+
+.message-container.other .message {
+    background-color: #37b7c3;
+    color: #000;
+}
+
+.message-icon {
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.input-area {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #ccc;
+    padding: 10px;
+    background: transparent;
+}
+
+.input-area input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.emoji-menu {
+    position: absolute;
+    bottom: 50px;
+    right: 10px;
+    background: linear-gradient(135deg, #071952, #37B7C3);
+    border: 1px solid #071952;
+    border-radius: 5px;
+    padding: 10px;
+    display: none;
+    width: 200px;
+    max-height: 204px; /* Add a max-height if needed */
+    overflow-y: auto; /* Add scroll if there are many emojis */
+}
+
+.emoji-menu::-webkit-scrollbar {
+    width: 0;
+}
+
+.emoji-menu span {
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    margin-left: 6px;
+    font-size: 20px;
+    transition: background-color 0.3s; /* Smooth transition for background color */
+}
+
+.emoji-menu span:hover {
+    background-color: rgba(27, 23, 23, 0.2); /* Darken the background on hover */
+}
+
+.emoji-button {
+    display: inline-block;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5em;
+    padding: 5px;
+}
+
+.attachment-button, .microphone-button {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-left: 10px; /* Space between buttons */
+}
+
+.attachment-menu {
+    position: absolute;
+    bottom: 50px;
+    right: 10px; /* Adjust this value to set the distance from the right edge */
+    background: linear-gradient(135deg, #071952, #37B7C3);
+    
+    border: 1px solid #071952;
+    border-radius: 5px;
+    padding: 10px;
+    display: none;
+    width: 200px; /* Set a fixed width if desired */
+}
+
+.attachment-menu button {
+    display: block;
+    color: white;
+    border-radius: 3px;
+    width: 100%;
+    padding: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    text-align: left;
+}
+
+.attachment-menu button:hover {
+    background-color: white;
+    color: black;
+}
+
+
+.modal {
+    display: flex;
+    justify-content: flex-start; /* Align to the left */
+    align-items: flex-start; /* Align to the top */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-sidebar {
+    width: 25%;
+    height: 100%;
+    background: linear-gradient(135deg, #071952, #37B7C3);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.user-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ccc;
+    margin-right: 10px;
+}
+
+.user-name {
+    color: white;
+    font-size: 1.2em;
+}
+
+.other-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ccc;
+    margin-right: 10px;
+}
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.modal-content button {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 1em;
+    width: 100%;
+    height: 45px;
+    border-radius: 6px;
+    outline: none;
+    border: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    font-size: 16px;
+    background-color: #071952;
+    color: #fff;
+    font-weight: 600;
+    transition: background-color 0.3s, color 0.3s; /* Add transition for smooth color change */
+}
+
+.modal-content button ion-icon {
+    margin-right: 10px;
+}
+
+.modal-content button:hover {
+    background-color: #fff;
+    color: #000000;
+
+}
+
+.close-button {
+    float: right;
+    cursor: pointer;
+    font-size: 1.5em;
+}
+
+.chat-back {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.chat-header {
+    display: flex;
+    align-items: center;
+    padding: 9px;
+    border-bottom: 1px solid #ccc;
+    background: transparent;
+}
+
+.chat-header-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ccc;
+    margin-right: 10px;
+}
+
+.chat-header-title {
+    color: white;
+    font-size: 1.2em;
+}
+.call-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: auto; /* Ensure it stays to the right */
+}
+
+.call-button ion-icon {
+    font-size: 30px;
+    color: #fff;
+}
+
+.call-button:hover ion-icon {
+    color: #37b7c3;
+}
