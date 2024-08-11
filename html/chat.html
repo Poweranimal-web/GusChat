@@ -35,6 +35,45 @@
                 </div>
             </div>
         </div>
+        <div class="call-modal" id="callModal" style="display: none;">
+            <div class="call-modal-header">
+                <button class="minimize-button" id="minimizeButton">_</button>
+            </div>
+            <div class="call-modal-body">
+                <div class="user-icon-placeholder"></div>
+            </div>
+            <div class="call-modal-footer">
+                <button class="call-button">
+                    <ion-icon name="desktop-outline"></ion-icon>
+                </button>
+                <button class="call-button end-call" onclick="endCall()">
+                    <ion-icon name="call-outline"></ion-icon>
+                </button>
+                <button class="call-button mic" id="micButton">
+                    <ion-icon name="mic-outline"></ion-icon>
+                </button>
+                <button class="call-button camera crossed" id="cameraButton">
+                    <ion-icon name="camera-outline"></ion-icon>
+                </button>
+            </div>
+        </div>
+        <div id="minimized-call-window" class="minimized-call-window" style="display: none;">
+            <div class="drag-area">
+                <div class="user-icon"></div>
+            </div>
+            <div class="minimized-call-controls">
+                <button class="call-button resize-button" id="resizeButton">
+                    <ion-icon name="resize-outline"></ion-icon>
+                </button>
+                
+                <button class="call-button end-call" onclick="endCall()">
+                    <ion-icon name="call-outline"></ion-icon>
+                </button>
+                <button class="call-button mic" id="micButton">
+                    <ion-icon name="mic-outline"></ion-icon>
+                </button>
+            </div>
+        </div>
         <div class="chat-area" id="chatArea">
             <div class="welcome-message" id="welcomeMessage">
                 <h1>Welcome to Telegram Clone</h1>
@@ -42,7 +81,7 @@
             <div class="chat-header" id="chatHeader" style="display: none;">
                 <div class="chat-header-icon"></div>
                 <div class="chat-header-title">Chat Title</div>
-                <button class="call-button">
+                <button class="call-button" onclick="toggleCallModal()">
                     <ion-icon name="call-outline"></ion-icon>
                 </button>
             </div>

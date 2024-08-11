@@ -34,9 +34,9 @@ body, html {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 10px; /* Space between button and search bar */
-    width: 40px; /* Adjust size as needed */
-    height: 30px; /* Adjust size as needed */
+    margin-right: 10px; 
+    width: 40px; 
+    height: 30px; 
 }
 
 .settings-icon {
@@ -48,8 +48,8 @@ body, html {
 }
 
 .settings-line {
-    width: 24px; /* Adjust width as needed */
-    height: 4px; /* Adjust height as needed */
+    width: 24px; 
+    height: 4px; 
     background-color: #EBF4F6;
     border-radius: 2px;
 }
@@ -59,13 +59,13 @@ body, html {
 }
 
 .search-bar {
-    flex-grow: 1; /* Take up remaining space */
+    flex-grow: 1; 
     display: flex;
     align-items: center;
 }
 
 .search-bar input {
-    width: 100%; /* Adjust to fill container */
+    width: 100%; 
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -191,8 +191,8 @@ body, html {
     padding: 10px;
     display: none;
     width: 200px;
-    max-height: 204px; /* Add a max-height if needed */
-    overflow-y: auto; /* Add scroll if there are many emojis */
+    max-height: 204px; 
+    overflow-y: auto; 
 }
 
 .emoji-menu::-webkit-scrollbar {
@@ -205,11 +205,11 @@ body, html {
     cursor: pointer;
     margin-left: 6px;
     font-size: 20px;
-    transition: background-color 0.3s; /* Smooth transition for background color */
+    transition: background-color 0.3s; 
 }
 
 .emoji-menu span:hover {
-    background-color: rgba(27, 23, 23, 0.2); /* Darken the background on hover */
+    background-color: rgba(27, 23, 23, 0.2); 
 }
 
 .emoji-button {
@@ -228,20 +228,20 @@ body, html {
     cursor: pointer;
     display: flex;
     align-items: center;
-    margin-left: 10px; /* Space between buttons */
+    margin-left: 10px; 
 }
 
 .attachment-menu {
     position: absolute;
     bottom: 50px;
-    right: 10px; /* Adjust this value to set the distance from the right edge */
+    right: 10px; 
     background: linear-gradient(135deg, #071952, #37B7C3);
     
     border: 1px solid #071952;
     border-radius: 5px;
     padding: 10px;
     display: none;
-    width: 200px; /* Set a fixed width if desired */
+    width: 200px; 
 }
 
 .attachment-menu button {
@@ -265,8 +265,8 @@ body, html {
 
 .modal {
     display: flex;
-    justify-content: flex-start; /* Align to the left */
-    align-items: flex-start; /* Align to the top */
+    justify-content: flex-start; 
+    align-items: flex-start; 
     position: fixed;
     top: 0;
     left: 0;
@@ -334,7 +334,7 @@ body, html {
     background-color: #071952;
     color: #fff;
     font-weight: 600;
-    transition: background-color 0.3s, color 0.3s; /* Add transition for smooth color change */
+    transition: background-color 0.3s, color 0.3s; 
 }
 
 .modal-content button ion-icon {
@@ -384,7 +384,7 @@ body, html {
     background: none;
     border: none;
     cursor: pointer;
-    margin-left: auto; /* Ensure it stays to the right */
+    margin-left: auto; 
 }
 
 .call-button ion-icon {
@@ -395,3 +395,158 @@ body, html {
 .call-button:hover ion-icon {
     color: #37b7c3;
 }
+.call-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px;
+    height: 550px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+.call-modal-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 5px;
+    background: linear-gradient(135deg, #071952, #37B7C3);
+    border-bottom: 1px solid #ccc;
+}
+
+.minimize-button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.call-modal-body {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-icon-placeholder {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #ccc;
+}
+
+.call-modal-footer {
+    display: flex;
+    justify-content: center; 
+   
+    padding: 10px;
+    border-top: 1px solid #ccc;
+    background: linear-gradient(135deg, #071952, #37B7C3);
+   
+}
+
+.call-modal-footer .call-button {
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 20px;   
+    font-size: 30px;      
+}
+
+
+
+
+.call-button.mic, .call-button.camera {
+    width: 40px;
+    height: 40px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+}
+
+
+.call-button.mic.crossed::after, .call-button.camera.crossed::after {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 2px;
+    background-color: white;
+    transform: rotate(45deg);
+   
+}
+
+
+.call-button.mic.crossed:hover::after, .call-button.camera.crossed:hover::after {
+    background-color: #37b7c3;
+}
+.call-button.end-call ion-icon {
+    color: red;
+}
+
+.call-button:hover ion-icon {
+    color: #37b7c3;
+}
+
+.call-modal:active {
+    cursor: nwse-resize;
+}
+
+.minimized-call-window {
+    position: fixed;
+    right: 10px;
+    bottom: 60px;
+    width: 120px; 
+    height: 180px; 
+    background: linear-gradient(135deg, #071952, #37B7C3);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: space-between; 
+    cursor: grab;
+    padding: 10px; 
+}
+
+.minimized-call-window .user-icon {
+    width: 60px; 
+    height: 60px;
+    background-color: #e0e0e0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px; 
+}
+
+.minimized-call-controls {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    padding-bottom: 10px;
+    border-top: 1px black solid;
+    padding: 5px;
+}
+
+.drag-area {
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+

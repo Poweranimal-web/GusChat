@@ -21,9 +21,7 @@ function openChat(chatId, chatElement) {
     chatBack.style.backgroundColor = '#EBF4F6';
 }
 
-document.addEventListener('click', function(event) {
-  
-});
+
 function openSettings() {
     document.getElementById('settingsModal').style.display = 'flex';
 }
@@ -67,3 +65,76 @@ document.addEventListener('click', function(event) {
 function emoji(emoji){
     document.getElementById("inputText").value += document.getElementById(emoji).innerHTML; 
 }
+
+function toggleCallModal() {
+    const modal = document.getElementById('callModal');
+    if (modal.style.display === 'none') {
+        modal.style.display = 'flex';
+    } else {
+        modal.style.display = 'none';
+    }
+}
+
+
+const minimizeButton = document.getElementById('minimizeButton');
+const callWindow = document.getElementById('callModal');  // Update to match the correct ID
+const minimizedCallWindow = document.getElementById('minimized-call-window');
+const dragArea = document.querySelector('.drag-area');
+
+minimizeButton.addEventListener('click', () => {
+    callWindow.style.display = 'none';   // Hide the main call window
+    minimizedCallWindow.style.display = 'flex';  // Show the minimized window
+});
+
+// Dragging functionality
+let isDragging = false;
+let offset = { x: 0, y: 0 };
+
+dragArea.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    offset.x = e.clientX - minimizedCallWindow.getBoundingClientRect().left;
+    offset.y = e.clientY - minimizedCallWindow.getBoundingClientRect().top;
+    minimizedCallWindow.style.cursor = 'grabbing';
+});
+
+document.addEventListener('mouseup', () => {
+    isDragging = false;
+    minimizedCallWindow.style.cursor = 'grab';
+});
+
+document.addEventListener('mousemove', (e) => {
+    if (isDragging) {
+        minimizedCallWindow.style.left = `${e.clientX - offset.x}px`;
+        minimizedCallWindow.style.top = `${e.clientY - offset.y}px`;
+    }
+});
+function endCall() {
+    const modal = document.getElementById('callModal');
+    const minimizedCallWindow = document.getElementById('minimized-call-window');
+    modal.style.display = 'none';
+    minimizedCallWindow.style.display = 'none';
+}
+
+const micButton = document.getElementById('micButton');
+const cameraButton = document.getElementById('cameraButton');
+
+// Toggle the 'crossed' class on click
+micButton.addEventListener('click', () => {
+    micButton.classList.toggle('crossed');
+});
+
+cameraButton.addEventListener('click', () => {
+    cameraButton.classList.toggle('crossed');
+});
+
+const resizeButton = document.getElementById('resizeButton');
+
+resizeButton.addEventListener('click', () => {
+    if (minimizedCallWindow.style.display === 'none') {
+        minimizedCallWindow.style.display = 'flex';
+        callWindow.style.display = 'none';
+    } else {
+        minimizedCallWindow.style.display = 'none';
+        callWindow.style.display = 'flex';
+    }
+});
