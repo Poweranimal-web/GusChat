@@ -64,8 +64,8 @@ build CMakeFiles/VOIP.dir/device.cpp.obj: CXX_COMPILER__VOIP_unscanned_ D$:/Voic
 #############################################
 # Link the executable VOIP.exe
 
-build VOIP.exe: CXX_EXECUTABLE_LINKER__VOIP_ CMakeFiles/VOIP.dir/main.cpp.obj CMakeFiles/VOIP.dir/device.cpp.obj | D$:/VoiceRecord/portaudio/libportaudio.dll.a
-  LINK_LIBRARIES = D:/VoiceRecord/portaudio/libportaudio.dll.a  -lws2_32  -lwinmm  -ldsound  -lole32  -luuid  -lsetupapi  -lole32  -luuid  -lsetupapi  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+build VOIP.exe: CXX_EXECUTABLE_LINKER__VOIP_ CMakeFiles/VOIP.dir/main.cpp.obj CMakeFiles/VOIP.dir/device.cpp.obj | D$:/VoiceRecord/portaudio/libportaudio.dll.a D$:/C++/msys/mingw64/lib/libavcodec.dll.a D$:/C++/msys/mingw64/lib/libavformat.dll.a D$:/C++/msys/mingw64/lib/libavutil.dll.a
+  LINK_LIBRARIES = D:/VoiceRecord/portaudio/libportaudio.dll.a  -lws2_32  D:/C++/msys/mingw64/lib/libavcodec.dll.a  D:/C++/msys/mingw64/lib/libavformat.dll.a  D:/C++/msys/mingw64/lib/libavutil.dll.a  -lwinmm  -ldsound  -lole32  -luuid  -lsetupapi  -lole32  -luuid  -lsetupapi  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\VOIP.dir
   POST_BUILD = C:\WINDOWS\system32\cmd.exe /C "cd /D D:\VoiceRecord\build && D:\C++\msys\mingw64\bin\cmake.exe -E copy_if_different D:/VoiceRecord/portaudio/libportaudio.dll D:/VoiceRecord/build"
   PRE_LINK = cd .

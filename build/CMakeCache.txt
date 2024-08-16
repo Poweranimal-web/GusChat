@@ -14,6 +14,24 @@
 # EXTERNAL cache entries
 ########################
 
+//Path to a file.
+AVCODEC_INCLUDE_DIR:PATH=D:/C++/msys/mingw64/include
+
+//Path to a library.
+AVCODEC_LIBRARY:FILEPATH=D:/C++/msys/mingw64/lib/libavcodec.dll.a
+
+//Path to a file.
+AVFORMAT_INCLUDE_DIR:PATH=D:/C++/msys/mingw64/include
+
+//Path to a library.
+AVFORMAT_LIBRARY:FILEPATH=D:/C++/msys/mingw64/lib/libavformat.dll.a
+
+//Path to a file.
+AVUTIL_INCLUDE_DIR:PATH=D:/C++/msys/mingw64/include
+
+//Path to a library.
+AVUTIL_LIBRARY:FILEPATH=D:/C++/msys/mingw64/lib/libavutil.dll.a
+
 //The directory containing a CMake configuration file for Boost.
 Boost_DIR:PATH=D:/C++/msys/mingw64/lib/cmake/Boost-1.85.0
 
@@ -246,6 +264,9 @@ CMAKE_TAPI:FILEPATH=CMAKE_TAPI-NOTFOUND
 // during the make.  This is useful for debugging only. With Visual
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
+
+//Path to a library.
+FFMPEG:FILEPATH=FFMPEG-NOTFOUND
 
 //Value Computed by CMake
 VOIP_BINARY_DIR:STATIC=D:/VoiceRecord/build
