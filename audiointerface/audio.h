@@ -1,31 +1,47 @@
+#include <iostream>
+#include <future>
 #include <portaudio.h>
+#include "codec.h"
+using namespace std;
 #ifndef AUDIO
 #define AUDIO
 class Audio 
 {
-// int numSamples;
-// float *databuffer;
 PaStream *stream;
 static int audioCallback(const void *inputBuffer, void *outputBuffer,
                            unsigned long framesPerBuffer,
                            const PaStreamCallbackTimeInfo* timeInfo,
                            PaStreamCallbackFlags statusFlags,
-                           void *userData){
-    float *out = (float*)outputBuffer;
-    const float *in = (const float*)inputBuffer;
+                           void *userData){ // callback function is passed
+    Audio* audio = static_cast<Audio*>(userData); 
+    G729 encoder;
+    G729 decoder;
+    uint16_t *out = (uint16_t*)outputBuffer; // audio output array
+    const uint16_t *in = (const uint16_t*)inputBuffer; // audio output array
     (void) timeInfo;
     (void) statusFlags;
-    (void) userData;
+    int FramesPerBufferCopy = framesPerBuffer;
+    uint16_t *audiodata = new uint16_t[FramesPerBufferCopy];
+    int counter = 0;
     for (int i = 0; i < framesPerBuffer; i++)
     {
-        float sample = in ? in[i] : 0.0f; // Read input, or 0.0 if inputBuffer is NULL
+        // Read input, or 0.0 if inputBuffer is NULL
+        // std::cout << framesPerBuffer << std::endl;
         // Output the sample (same sample to both channels if output is stereo)
-        out[i] = sample;
-    }
-    return paContinue;
-    
+        if (in[i]){
+            audiodata[i] = in[i];
+        }
+        else{
+            audiodata[i] = 0;
+        }
+        out[i] = in[i];
 
-                                
+    }
+    std::future<uint8_t*> coppressdata = std::async(&G729::start_encoding,ref(encoder),FramesPerBufferCopy,audiodata);
+    uint8_t *data = coppressdata.get();
+    cout << "hello world" << endl;
+    delete[] audiodata;
+    return paContinue;          
 };
 public:
     bool open()
@@ -46,25 +62,23 @@ public:
             }
     
             outputParameters.channelCount = 1;       /* mono output */
-            outputParameters.sampleFormat = paFloat32; /* 32 bit floating point output */
+            outputParameters.sampleFormat = paInt16; /* 32 bit intenger point output */
             outputParameters.suggestedLatency = Pa_GetDeviceInfo( outputParameters.device )->defaultLowOutputLatency;
             outputParameters.hostApiSpecificStreamInfo = NULL;
             inputParameters.channelCount = 1;       /* mono output */
-            inputParameters.sampleFormat = paFloat32; /* 32 bit floating point output */
+            inputParameters.sampleFormat = paInt16; /* 16 bit intenger point output */
             inputParameters.suggestedLatency = Pa_GetDeviceInfo( inputParameters.device )->defaultLowOutputLatency;
             inputParameters.hostApiSpecificStreamInfo = NULL;
-    
             PaError err = Pa_OpenStream(
                 &stream,
-                &inputParameters, /* no input */
+                &inputParameters, 
                 &outputParameters,
-                44100,
+                48000,
                 paFramesPerBufferUnspecified,
                 paClipOff,      /* we won't output out of range samples so don't bother clipping them */
                 &Audio::audioCallback,
-                nullptr            /* Using 'this' for userData so we can cast to Sine* in paCallback method */
+                this           /* Using 'this' for userData so we can cast to Audio* in paCallback method */
             );
-   
            if (err != paNoError)
            {
                /* Failed to open stream to device !!! */
