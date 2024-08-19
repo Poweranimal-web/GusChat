@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\GusChat\\GusChat.csproj": {}
+    "D:\\GusChat\\Project\\GusChat.csproj": {}
   },
   "projects": {
-    "D:\\GusChat\\GusChat.csproj": {
+    "D:\\GusChat\\Project\\GusChat.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\GusChat\\GusChat.csproj",
+        "projectUniqueName": "D:\\GusChat\\Project\\GusChat.csproj",
         "projectName": "GusChat",
-        "projectPath": "D:\\GusChat\\GusChat.csproj",
+        "projectPath": "D:\\GusChat\\Project\\GusChat.csproj",
         "packagesPath": "C:\\Users\\Nikita\\.nuget\\packages\\",
-        "outputPath": "D:\\GusChat\\obj\\",
+        "outputPath": "D:\\GusChat\\Project\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Nikita\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -42,6 +42,24 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
+            "Mysql.Data": {
+              "target": "Package",
+              "version": "[8.0.16, )"
+            },
+            "Mysql.Data.Entity": {
+              "target": "Package",
+              "version": "[6.10.8, )"
+            },
+            "NUnit": {
+              "target": "Package",
+              "version": "[4.1.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
