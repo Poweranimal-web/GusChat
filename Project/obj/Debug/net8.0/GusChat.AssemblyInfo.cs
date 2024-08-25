@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GusChat")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e9612e9b757f5820f524a00925b331950700be76")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+077ab722ffb55994df4d3f69195f34f136e374ea")]
 [assembly: System.Reflection.AssemblyProductAttribute("GusChat")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GusChat")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

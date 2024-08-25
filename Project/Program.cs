@@ -1,6 +1,18 @@
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
+namespace project{
 
-app.MapGet("/", () => "Hello World!");
+class Program{
+    public static WebApplicationBuilder builder;
+    static int Main(string[] args){
+        builder = WebApplication.CreateBuilder(args);
+        var app = builder.Build();
+        app.MapPost("/login", async() => {
+            
 
-app.Run();
+        });
+        app.Run();
+        return 0;
+    }
+}
+}
+
+

@@ -11,6 +11,7 @@
     <PackageReference Include="Mysql.Data" Version="8.0.16" />
     <PackageReference Include="Mysql.Data.Entity" Version="6.10.8" />
     <PackageReference Include="NUnit" Version="4.1.0" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
   </ItemGroup>
 
 </Project>
