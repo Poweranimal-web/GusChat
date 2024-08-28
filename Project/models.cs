@@ -1,11 +1,11 @@
 using System;
 namespace models{
-    class customers{
-        int id{get;set;}
-        string tag{get;set;}
-        string email{get;set;}
-        string password{get;set;}
-        string phone_number{get;set;}
+    public class customers{
+        public int? id{get;set;}
+        public string tag{get;set;}
+        public string? email{get;set;}
+        public string password{get;set;}
+        public string? phone_number{get;set;}
 
     }
 
