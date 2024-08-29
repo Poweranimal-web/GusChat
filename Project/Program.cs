@@ -57,15 +57,15 @@ class Program{
             customers loginData = await context.Request.ReadFromJsonAsync<customers>();
             bool exist_user = await db.customers.AnyAsync((user)=>user.tag == loginData.tag || user.email == loginData.email);
             if (!exist_user){
-                await Results.Unauthorized().ExecuteAsync(context);
-            }
-            else{
                 AuthService auth = app.Services.GetService<AuthService>();
                 List<Claim> claims = new List<Claim>{new Claim("name", loginData.tag)};
                 string token = auth.GetToken("JWT", context,  claims);
                 await db.customers.AddAsync(loginData);
                 await db.SaveChangesAsync();
                 await Results.Text(token).ExecuteAsync(context);
+            }
+            else{
+                await Results.Unauthorized().ExecuteAsync(context);
             }
 
         });
