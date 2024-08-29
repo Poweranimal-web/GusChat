@@ -37,7 +37,7 @@ class Program{
         var app = builder.Build();
         app.UseAuthentication();
         app.UseAuthorization();
-        app.MapGet("/login", async(context) => {
+        app.MapPost("/login", async(context) => {
             DB db = new DB(); 
             customers loginData = await context.Request.ReadFromJsonAsync<customers>();
             bool exist_user = await db.customers.AnyAsync((user)=>user.tag == loginData.tag && user.password == loginData.password);
@@ -46,8 +46,25 @@ class Program{
             }
             else{
                 AuthService auth = app.Services.GetService<AuthService>();
-                List<Claim> claims = new List<Claim>{new Claim("name", "Nikita")};
+                List<Claim> claims = new List<Claim>{new Claim("name", loginData.tag)};
                 string token = auth.GetToken("JWT", context,  claims);
+                await Results.Text(token).ExecuteAsync(context);
+            }
+
+        });
+        app.MapPost("/reg", async(context) => {
+            DB db = new DB(); 
+            customers loginData = await context.Request.ReadFromJsonAsync<customers>();
+            bool exist_user = await db.customers.AnyAsync((user)=>user.tag == loginData.tag || user.email == loginData.email);
+            if (!exist_user){
+                await Results.Unauthorized().ExecuteAsync(context);
+            }
+            else{
+                AuthService auth = app.Services.GetService<AuthService>();
+                List<Claim> claims = new List<Claim>{new Claim("name", loginData.tag)};
+                string token = auth.GetToken("JWT", context,  claims);
+                await db.customers.AddAsync(loginData);
+                await db.SaveChangesAsync();
                 await Results.Text(token).ExecuteAsync(context);
             }
 
