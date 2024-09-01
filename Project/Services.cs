@@ -77,3 +77,7 @@ namespace auth{
         }
     }
 }
+namespace storageAct{
+    interface IStorage{
+    }
+}

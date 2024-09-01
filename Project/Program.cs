@@ -1,11 +1,12 @@
-using System.Data.Entity;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using models;
-using mysql;
-using auth;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using models;
+using mysql;
+using auth;
 namespace project{
 class Program{
     public static WebApplicationBuilder builder;
@@ -50,7 +51,6 @@ class Program{
                 string token = auth.GetToken("JWT", context,  claims);
                 await Results.Text(token).ExecuteAsync(context);
             }
-
         });
         app.MapPost("/reg", async(context) => {
             DB db = new DB(); 
@@ -69,7 +69,7 @@ class Program{
             }
 
         });
-        app.MapGet("/home", [Authorize]async(context) =>{
+        app.MapGet("/test", [Authorize]async(context) =>{
             await context.Response.WriteAsync("dfd");
         });
         app.Run();

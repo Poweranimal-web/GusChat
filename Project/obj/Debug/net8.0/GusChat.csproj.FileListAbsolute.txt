@@ -38,8 +38,6 @@ D:\GusChat\Project\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
 D:\GusChat\Project\bin\Debug\net8.0\MySql.Data.dll
 D:\GusChat\Project\bin\Debug\net8.0\MySql.Data.Entity.EF6.dll
 D:\GusChat\Project\bin\Debug\net8.0\MySqlConnector.dll
-D:\GusChat\Project\bin\Debug\net8.0\nunit.framework.dll
-D:\GusChat\Project\bin\Debug\net8.0\nunit.framework.legacy.dll
 D:\GusChat\Project\bin\Debug\net8.0\Pomelo.EntityFrameworkCore.MySql.dll
 D:\GusChat\Project\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
 D:\GusChat\Project\bin\Debug\net8.0\System.Drawing.Common.dll

@@ -12,7 +12,6 @@
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.8",
           "MySql.Data": "8.0.16",
           "MySql.Data.Entity": "6.10.8",
-          "NUnit": "4.1.0",
           "Pomelo.EntityFrameworkCore.MySql": "8.0.2"
         },
         "runtime": {
@@ -466,18 +465,6 @@
           "System.Threading.Timer": "4.3.0",
           "System.Xml.ReaderWriter": "4.3.0",
           "System.Xml.XDocument": "4.3.0"
-        }
-      },
-      "NUnit/4.1.0": {
-        "runtime": {
-          "lib/net6.0/nunit.framework.dll": {
-            "assemblyVersion": "4.0.1.0",
-            "fileVersion": "4.0.1.0"
-          },
-          "lib/net6.0/nunit.framework.legacy.dll": {
-            "assemblyVersion": "4.0.1.0",
-            "fileVersion": "4.0.1.0"
-          }
         }
       },
       "Pomelo.EntityFrameworkCore.MySql/8.0.2": {
@@ -1518,13 +1505,6 @@
       "sha512": "sha512-WcSp3+vP+yHNgS8EV5J7pZ9IRpeDuARBPN28by8zqff1wJQXm26PVU8L3/fYLBJVU7BtDyqNVWq2KlCVvSSR4A==",
       "path": "netstandard.library/1.6.1",
       "hashPath": "netstandard.library.1.6.1.nupkg.sha512"
-    },
-    "NUnit/4.1.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-MT/DpAhjtiytzhTgTqIhBuWx4y26PKfDepYUHUM+5uv4TsryHC2jwFo5e6NhWkApCm/G6kZ80dRjdJFuAxq3rg==",
-      "path": "nunit/4.1.0",
-      "hashPath": "nunit.4.1.0.nupkg.sha512"
     },
     "Pomelo.EntityFrameworkCore.MySql/8.0.2": {
       "type": "package",
