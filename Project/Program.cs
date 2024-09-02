@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using models;
 using mysql;
 using auth;
+using websocket;
+using massage;
+using System.Net.WebSockets;
 namespace project{
 class Program{
     public static WebApplicationBuilder builder;
@@ -15,6 +18,7 @@ class Program{
         builder.Services.AddSingleton<IAuthentication,JWTRS256Authentication>();
         builder.Services.AddSingleton<IFactory,AuthenticationFactory>();
         builder.Services.AddSingleton<AuthService>();
+        builder.Services.AddScoped<IWebSocketHandler,TextSocketHandler>();
         builder.Services.AddAuthorization();
         builder.Services.AddAuthentication(x =>
         {
@@ -38,6 +42,10 @@ class Program{
         var app = builder.Build();
         app.UseAuthentication();
         app.UseAuthorization();
+        WebSocketOptions websocketOptions = new WebSocketOptions(){
+            KeepAliveInterval = TimeSpan.FromMinutes(2)
+        };
+        app.UseWebSockets(websocketOptions);
         app.MapPost("/login", async(context) => {
             DB db = new DB(); 
             customers loginData = await context.Request.ReadFromJsonAsync<customers>();
@@ -51,6 +59,15 @@ class Program{
                 string token = auth.GetToken("JWT", context,  claims);
                 await Results.Text(token).ExecuteAsync(context);
             }
+        });
+        app.MapGet("/r/{code:string}", [Authorize]async(HttpContext context,string code)=>{
+                if (context.WebSockets.IsWebSocketRequest){
+                    IWebSocketHandler textmessage = app.Services.GetService<TextSocketHandler>();
+                    WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
+                    await textmessage.HandlerMessage(context, webSocket);
+
+                }
+            
         });
         app.MapPost("/reg", async(context) => {
             DB db = new DB(); 

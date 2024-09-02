@@ -4,7 +4,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Identity.Client;
 using System.Security.Cryptography;
-
+using System.Net.WebSockets;
+using massage;
+using System.Text.Json;
 
 namespace auth{
     interface IAuthentication{
@@ -80,4 +82,32 @@ namespace auth{
 namespace storageAct{
     interface IStorage{
     }
+}
+namespace websocket{
+   interface IWebSocketHandler{
+        Task HandlerMessage(HttpContext http, WebSocket webSocket);
+   }
+   class TextSocketHandler : IWebSocketHandler
+   {
+        public async Task HandlerMessage(HttpContext http, WebSocket webSocket){
+            byte[] buffer = new byte[1024*4];
+            WebSocketReceiveResult request = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None); 
+            while(!request.CloseStatus.HasValue){
+                await webSocket.SendAsync(new ArraySegment<byte>(buffer),request.MessageType,request.EndOfMessage,CancellationToken.None);
+                request = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                if (request.Count > 0){
+                    string jsonString = Encoding.UTF8.GetString(buffer);
+                    TextMessage message = JsonSerializer.Deserialize<TextMessage>(jsonString);
+                    Console.WriteLine("Name: {0}, message: {0}", message.tag,message.message);
+                }
+            }
+            await webSocket.CloseAsync(request.CloseStatus.Value,request.CloseStatusDescription, CancellationToken.None);
+        }
+   }
+   class FileSocketHandler : IWebSocketHandler
+   {
+        public async Task HandlerMessage(HttpContext http, WebSocket webSocket){
+            
+        }
+   }
 }
