@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
             userLengthError.style.display = 'block';
         }
 
-        if (/^[a-zA-Z]+$/.test(usernameField.value)) {
+        if (/^[a-zA-Z.]+$/.test(usernameField.value)) {
             alphabetError.style.display = 'none';
         } else {
             alphabetError.style.display = 'block';
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const checkValidEmail = emailField.value.split('@');
         const mailAlphabetError = document.querySelector('.mail-alphabet-error');
 
-        if (/^[a-z0-9]+$/.test(checkValidEmail[0])) {
+        if (/^[a-z0-9.]+$/.test(checkValidEmail[0])) {
             mailAlphabetError.style.display = 'none';
         } else {
             mailAlphabetError.style.display = 'block';
