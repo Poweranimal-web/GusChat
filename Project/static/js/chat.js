@@ -1,5 +1,5 @@
 /* scripts.js */
-let socket = null;
+let startSocket = false;
 document.addEventListener("DOMContentLoaded", async function (event) {
     let response = await fetch("/",{
             method: "POST", 
@@ -18,31 +18,38 @@ document.addEventListener("DOMContentLoaded", async function (event) {
     else{
         let json_response = await response.json();
         if (json_response.response == "OK"){
-            console.log(json_response.response);
-            socket = new WebSocket("ws://localhost:5182");
+            startSocket = true;
+            startSocketClient();
         }
     }
 });
-  if(socket != null){
-    console.log("hello")
-    socket.onmessage = function(event) {
-        console.log(`[message] Данные получены с сервера: ${event.data}`);
-      };
-      
-      socket.onclose = function(event) {
-        if (event.wasClean) {
-            console.log(`[close] Соединение закрыто чисто, код=${event.code} причина=${event.reason}`);
-        } else {
-          // например, сервер убил процесс или сеть недоступна
-          // обычно в этом случае event.code 1006
-          console.log('[close] Соединение прервано');
-        }
-      };
-      
-      socket.onerror = function(error) {
-        console.log(`[error]`);
-      };
-  }
+function startSocketClient(){
+    if(startSocket === true){
+        console.log("start socket");
+        let socket = new WebSocket("ws://" + location.host + "/");
+        socket.addEventListener("open",(e) => {
+            console.log("[open] Соединение установлено");
+            console.log("Отправляем данные на сервер");
+            socket.send("Меня зовут Джон");
+        });
+        socket.onmessage = function(event) {
+                console.log(`[message] Данные получены с сервера: ${event.data}`);
+        };
+            
+        socket.onclose = function(event) {
+                if (event.wasClean) {
+                    console.log(`[close] Соединение закрыто чисто, код=${event.code} причина=${event.reason}`);
+                } else {
+                // например, сервер убил процесс или сеть недоступна
+                // обычно в этом случае event.code 1006
+                console.log('[close] Соединение прервано');
+                }
+            };      
+        socket.onerror = function(error) {
+                console.log(`[error]`);
+        };
+    }
+}  
 function openChat(chatId, chatElement) {
     const chatWindows = document.querySelectorAll('.chat-window');
     const chatElements = document.querySelectorAll('.chat');

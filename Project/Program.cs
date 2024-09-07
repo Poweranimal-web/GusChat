@@ -41,8 +41,6 @@ class Program{
                 };
         });
         var app = builder.Build();
-        app.UseAuthentication();
-        app.UseAuthorization();
         app.UseStaticFiles(new StaticFileOptions(){
             FileProvider = new PhysicalFileProvider(Path.Combine(
                 builder.Environment.ContentRootPath, "static"
@@ -52,6 +50,8 @@ class Program{
         WebSocketOptions websocketOptions = new WebSocketOptions(){
             KeepAliveInterval = TimeSpan.FromMinutes(2)
         };
+        app.UseAuthentication();
+        app.UseAuthorization();
         app.UseWebSockets(websocketOptions);
         app.MapPost("/login", async(context) => {
             DB db = new DB(); 
@@ -79,14 +79,15 @@ class Program{
             
         });
         app.MapGet("/", async(HttpContext context)=>{
-                if (context.WebSockets.IsWebSocketRequest){
-                    IWebSocketHandler textMessage = app.Services.GetService<TextSocketHandler>();
+            if (context.WebSockets.IsWebSocketRequest){
+                    IWebSocketHandler textMessage = app.Services.GetRequiredService<IWebSocketHandler>();
+                    Console.WriteLine(textMessage.GetType());
                     WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
                     await textMessage.HandlerMessage(context, webSocket);
-                }
-                else{
-                    await context.Response.SendFileAsync("static/html/chat.html");
-                }
+            }
+            else{
+                await context.Response.SendFileAsync("static/html/chat.html");
+            }
             
         });
         app.MapPost("/", [Authorize]async(HttpContext context)=>{
