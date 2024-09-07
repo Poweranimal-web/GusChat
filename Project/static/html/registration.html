@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <link rel="stylesheet" href="/Static/css/reg_styles.css">
+    <script src="/Static/js/validation.js" defer></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <form method="post" action="" name="regForm">
+            <h1>Registration</h1>
+            <div class="input-box">
+                <div class="input-field">
+                    <div class="input-wrapper">
+                        <ion-icon class="i" name="person-outline"></ion-icon>
+                        <input type="text" class="form-control" name="username" placeholder="Name" required/>
+                    </div>
+                    <p class="error" id="username-error"></p>
+                    <p class="error user-length-error" id="user-length-error">Name must be longer than 3 characters</p>
+                    <p class="error user-alphabet-error" id="user-alphabet-error">Name must contain only Latin letters</p>
+                </div>
+                <div class="input-field">
+                    <div class="input-wrapper">
+                        <ion-icon class="i" name="call-outline"></ion-icon>
+                        <input type="text" class="form-control" name="phone" placeholder="Phone" required/>
+                    </div>
+                    <p class="error" id="phone-error"></p>
+                </div>
+            </div>
+            <div class="input-box">
+                <div class="input-field">
+                    <div class="input-wrapper">
+                        <ion-icon class="i" name="lock-closed-outline" id="toggle-password"></ion-icon>
+                        <input type="password" class="form-control" name="password" placeholder="Password" required/>
+                    </div>
+                    <p class="error" id="password-error"></p>
+                    <p class="error password-length-error" id="password-length-error">Password must be at least 8 characters</p>
+                    <p class="error password-digit-error" id="password-digit-error">Must contain at least one digit</p>
+                    <p class="error password-uppercase-error" id="password-uppercase-error">Must contain at least one uppercase letter</p>
+                    <p class="error password-lowercase-error" id="password-lowercase-error">Must contain at least one lowercase letter</p>
+                </div>
+                <div class="input-field">
+                    <div class="input-wrapper">
+                        <ion-icon class="i" name="lock-closed-outline" id="toggle-confirm-password"></ion-icon>
+                        <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required/>
+                    </div>
+                    <p class="error" id="confirm-password-error">Must be the same as password</p>
+                </div>
+            </div>
+            <div class="input-box full-width">
+                <div class="input-field">
+                    <div class="input-wrapper">
+                        <ion-icon class="i" name="mail-outline"></ion-icon>
+                        <input type="email" class="form-control" name="email" placeholder="Email" required/>
+                    </div>
+                    <p class="error" id="email-error"></p>
+                    <p class="error mail-alphabet-error" id="mail-alphabet-error">Use lowercase Latin letters</p>
+                    <p class="error incorrect-mail" id="incorrect-mail-error">Use ukr.net or gmail.com</p>
+                    <p class="error dog-error" id="dog-error">Expected use of @</p>
+                </div>
+            </div>
+            <label for="checkbox">
+                <input type="checkbox" id="checkbox" required> You agree with our terms of use
+            </label>
+            <p class="error data-error">Account exist with current Name or Email</p>
+            <button type="submit" class="btn">Register</button>
+            <div class="login-link">
+                <p>Already have an account? <a href="/login">Login</a></p>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

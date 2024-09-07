@@ -10,6 +10,7 @@ using auth;
 using websocket;
 using massage;
 using System.Net.WebSockets;
+using Microsoft.Extensions.FileProviders;
 namespace project{
 class Program{
     public static WebApplicationBuilder builder;
@@ -18,7 +19,7 @@ class Program{
         builder.Services.AddSingleton<IAuthentication,JWTRS256Authentication>();
         builder.Services.AddSingleton<IFactory,AuthenticationFactory>();
         builder.Services.AddSingleton<AuthService>();
-        builder.Services.AddScoped<IWebSocketHandler,TextSocketHandler>();
+        builder.Services.AddSingleton<IWebSocketHandler,TextSocketHandler>();
         builder.Services.AddAuthorization();
         builder.Services.AddAuthentication(x =>
         {
@@ -42,6 +43,12 @@ class Program{
         var app = builder.Build();
         app.UseAuthentication();
         app.UseAuthorization();
+        app.UseStaticFiles(new StaticFileOptions(){
+            FileProvider = new PhysicalFileProvider(Path.Combine(
+                builder.Environment.ContentRootPath, "static"
+            )),
+            RequestPath = "/Static"
+        });
         WebSocketOptions websocketOptions = new WebSocketOptions(){
             KeepAliveInterval = TimeSpan.FromMinutes(2)
         };
@@ -60,14 +67,31 @@ class Program{
                 await Results.Text(token).ExecuteAsync(context);
             }
         });
-        app.MapGet("/r/{code:string}", [Authorize]async(HttpContext context,string code)=>{
+        app.MapGet("/{code}", async(HttpContext context,string code)=>{
                 if (context.WebSockets.IsWebSocketRequest){
-                    IWebSocketHandler textmessage = app.Services.GetService<TextSocketHandler>();
+                    IWebSocketHandler textMessage = app.Services.GetService<TextSocketHandler>();
                     WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
-                    await textmessage.HandlerMessage(context, webSocket);
-
+                    await textMessage.HandlerMessage(context, webSocket);
+                }
+                else{
+                    await context.Response.SendFileAsync("static/html/chat.html");
                 }
             
+        });
+        app.MapGet("/", async(HttpContext context)=>{
+                if (context.WebSockets.IsWebSocketRequest){
+                    IWebSocketHandler textMessage = app.Services.GetService<TextSocketHandler>();
+                    WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
+                    await textMessage.HandlerMessage(context, webSocket);
+                }
+                else{
+                    await context.Response.SendFileAsync("static/html/chat.html");
+                }
+            
+        });
+        app.MapPost("/", [Authorize]async(HttpContext context)=>{
+                StatusOkMessage statusOkMessage = new StatusOkMessage(){response="OK"};
+                await context.Response.WriteAsJsonAsync<StatusOkMessage>(statusOkMessage);    
         });
         app.MapPost("/reg", async(context) => {
             DB db = new DB(); 
@@ -86,8 +110,17 @@ class Program{
             }
 
         });
+        app.MapGet("/login", async(context) => {
+            await context.Response.SendFileAsync("static/html/login.html");
+        });
+        app.MapGet("/reg", async(context) => {
+            await context.Response.SendFileAsync("static/html/registration.html");
+        });
         app.MapGet("/test", [Authorize]async(context) =>{
             await context.Response.WriteAsync("dfd");
+        });
+        app.MapGet("/logout", async(context) =>{
+            await context.Response.SendFileAsync("static/html/logout.html");
         });
         app.Run();
         return 0;

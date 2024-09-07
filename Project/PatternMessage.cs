@@ -7,4 +7,7 @@ namespace massage{
         public DateTime time{get;set;}
 
     }
+    class StatusOkMessage{
+        public string response{get;set;}
+    }
 }
