@@ -1,29 +1,113 @@
-/* scripts.js */
+document.addEventListener('DOMContentLoaded', function () {
+    const emailField = document.getElementById('contactEmail');
+    const addContactModalBody = document.getElementById('addContactModalBody');
+
+    emailField.addEventListener("input", () => {
+        validateEmail();
+        adjustModalHeight();
+    });
+});
+
+function validateEmail() {
+    const emailField = document.getElementById('contactEmail');
+    const checkValidEmail = emailField.value.split('@');
+    
+    const mailAlphabetError = document.querySelector('.mail-alphabet-error');
+    const dogValidError = document.querySelector('.dog-error');
+    const mailValidError = document.querySelector('.incorrect-mail');
+
+   
+    if (/^[a-z0-9.]+$/.test(checkValidEmail[0])) {
+        mailAlphabetError.style.display = 'none';
+    } else {
+        mailAlphabetError.style.display = 'block';
+    }
+
+    
+    if (emailField.value.includes("@")) {
+        if (checkValidEmail[1] && checkValidEmail[1].length >= 7) {
+            if (checkValidEmail[1] === 'gmail.com' || checkValidEmail[1] === 'ukr.net') {
+                mailValidError.style.display = 'none';
+            } else {
+                mailValidError.style.display = 'block';
+            }
+            dogValidError.style.display = 'none';
+        }
+    } else {
+        dogValidError.style.display = 'block';
+    }
+}
+
+
+function adjustModalHeight() {
+    const addContactModalBody = document.getElementById('addContactModalBody');
+    const modalErrors = addContactModalBody.querySelectorAll('.error');
+    let visibleErrors = 0;
+
+    
+    modalErrors.forEach(error => {
+        if (error.style.display === 'block') {
+            visibleErrors += 1;
+        }
+    });
+
+   
+    addContactModalBody.style.height = `calc(100% + ${visibleErrors * 20}px)`;
+}
+
+
 function openChat(chatId, chatElement) {
-    const chatWindows = document.querySelectorAll('.chat-window');
-    const chatElements = document.querySelectorAll('.chat');
     const chatBack = document.getElementById('chatBack');
     const chatHeader = document.getElementById('chatHeader');
+    const inputArea = document.getElementById('inputArea');
+    const welcomeMessage = document.getElementById('welcomeMessage');
     
-    chatWindows.forEach(window => window.style.display = 'none');
-    chatElements.forEach(element => element.classList.remove('selected'));
-    
-    document.getElementById(chatId).style.display = 'block';
-    document.getElementById('welcomeMessage').style.display = 'none';
-    document.getElementById('inputArea').style.display = 'flex';
-    chatElement.classList.add('selected');
-    
-    // Update chat header
-    const chatTitle = chatElement.textContent.trim();
-    chatHeader.querySelector('.chat-header-title').textContent = chatTitle;
+   
+    let chatWindow = document.getElementById(chatId);
+    if (!chatWindow) {
+        
+        chatWindow = document.createElement('div');
+        chatWindow.classList.add('chat-window');
+        chatWindow.id = chatId;
+        chatWindow.innerHTML = `<div class="no-messages">There are no messages yet</div>`;
+        chatBack.appendChild(chatWindow);
 
+        
+        const newChat = document.createElement('div');
+        newChat.classList.add('chat');
+        newChat.innerHTML = `<div class="chat-icon"></div>${chatElement.querySelector('.contact-name').textContent}`;
+        newChat.setAttribute('onclick', `openChat('${chatId}', this)`);
+        document.querySelector('.chat-list').appendChild(newChat);
+    }
+
+    
+    const chatWindows = document.querySelectorAll('.chat-window');
+    chatWindows.forEach(window => window.style.display = 'none');
+    
+    const chatElements = document.querySelectorAll('.chat');
+    chatElements.forEach(element => element.classList.remove('selected'));
+
+    chatWindow.style.display = 'block';
+    chatElement.classList.add('selected');
+
+    const chatTitle = chatElement.querySelector('.contact-name')?.textContent.trim() || chatElement.textContent.trim();
+    chatHeader.querySelector('.chat-header-title').textContent = chatTitle;
+    
     chatHeader.style.display = 'flex';
+    inputArea.style.display = 'flex';
+    welcomeMessage.style.display = 'none';
+    
     chatBack.style.backgroundColor = '#EBF4F6';
 }
 
 
+
+
 function openSettings() {
     document.getElementById('settingsModal').style.display = 'flex';
+    
+    const contactModal = document.getElementById('addContactModal');
+    contactModal.style.display = 'none';
 }
 
 function closeSettings() {
@@ -40,27 +124,47 @@ function toggleAttachmentMenu() {
     attachmentMenu.style.display = attachmentMenu.style.display === 'block' ? 'none' : 'block';
 }
 
-
-
 document.addEventListener('click', function(event) {
     const emojiMenu = document.getElementById('emojiMenu');
     const attachmentMenu = document.getElementById('attachmentMenu');
     const modal = document.getElementById('settingsModal');
     const sidebar = document.getElementById('modalSidebar');
+    const contactsModal = document.getElementById('contactsModal');
+    const addContactsModal = document.getElementById('addContactModal');
 
-    if (modal.style.display === 'flex' && !sidebar.contains(event.target) && !event.target.closest('.settings-button')) {
-        modal.style.display = 'none';
+    if (contactsModal && contactsModal.style.display === 'flex') {
+        return; 
     }
-    // Close emoji menu if clicked outside
-    if (emojiMenu.style.display === 'block' && !emojiMenu.contains(event.target) && !event.target.closest('.emoji-button')) {
+
+    if (addContactsModal && addContactsModal.style.display === 'flex') {
+        return; 
+    }
+
+   
+    if (modal.style.display === 'flex' && !sidebar.contains(event.target) && !event.target.closest('.settings-button') && !event.target.closest('#contactsModal')) {
+        
+        modal.style.display = 'none'; 
+    }
+
+    if (emojiMenu.style.display === 'block' && 
+        !emojiMenu.contains(event.target) && 
+        !event.target.closest('.emoji-button')) {
+        
         emojiMenu.style.display = 'none';
     }
 
-    // Close attachment menu if clicked outside
-    if (attachmentMenu.style.display === 'block' && !attachmentMenu.contains(event.target) && !event.target.closest('.attachment-button')) {
+    if (attachmentMenu.style.display === 'block' && 
+        !attachmentMenu.contains(event.target) && 
+        !event.target.closest('.attachment-button')) {
+        
         attachmentMenu.style.display = 'none';
     }
 });
+
+function closeContactsModal() {
+    const contactsModal = document.getElementById('contactsModal');
+    contactsModal.style.display = 'none';
+}
 
 function emoji(emoji){
     document.getElementById("inputText").value += document.getElementById(emoji).innerHTML; 
@@ -75,18 +179,17 @@ function toggleCallModal() {
     }
 }
 
-
 const minimizeButton = document.getElementById('minimizeButton');
-const callWindow = document.getElementById('callModal');  // Update to match the correct ID
+const callWindow = document.getElementById('callModal'); 
 const minimizedCallWindow = document.getElementById('minimized-call-window');
 const dragArea = document.querySelector('.drag-area');
 
 minimizeButton.addEventListener('click', () => {
-    callWindow.style.display = 'none';   // Hide the main call window
-    minimizedCallWindow.style.display = 'flex';  // Show the minimized window
+    callWindow.style.display = 'none';   
+    minimizedCallWindow.style.display = 'flex';  
 });
 
-// Dragging functionality
+
 let isDragging = false;
 let offset = { x: 0, y: 0 };
 
@@ -118,7 +221,7 @@ function endCall() {
 const micButton = document.getElementById('micButton');
 const cameraButton = document.getElementById('cameraButton');
 
-// Toggle the 'crossed' class on click
+
 micButton.addEventListener('click', () => {
     micButton.classList.toggle('crossed');
 });
@@ -138,3 +241,21 @@ resizeButton.addEventListener('click', () => {
         callWindow.style.display = 'flex';
     }
 });
+
+function openContactsModal() {
+    document.getElementById('contactsModal').style.display = 'flex';
+}
+
+function closeContactsModal() {
+    document.getElementById('contactsModal').style.display = 'none';
+}
+
+function openAddContactModal() {
+    document.getElementById('addContactModal').style.display = 'flex';
+}
+
+function closeAddContactModal() {
+    document.getElementById('addContactModal').style.display = 'none';
+}
+
+

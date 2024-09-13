@@ -20,6 +20,13 @@ body, html {
     border-right: 1px solid #ccc;
 }
 
+.no-messages {
+    text-align: center;
+    font-size: 1.2em;
+    color: #000000;
+    margin-top: 20px;
+}
+
 .top-bar {
     display: flex;
     align-items: center;
@@ -550,3 +557,220 @@ body, html {
     justify-content: center;
 }
 
+.contacts-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 500px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+.contacts-modal-header {
+    display: flex;
+    background: linear-gradient(135deg, #071952, #37B7C3);
+    border-bottom: 1px solid #ccc;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    color: white;
+}
+
+.contacts-modal-body {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    flex-grow: 1;
+    padding: 0 15px; 
+}
+
+.contacts-footer {
+    display: flex;
+    justify-content: space-between;
+   
+    padding: 10px;
+    border-top: 1px solid #ccc;
+    background: linear-gradient(135deg, #071952, #37B7C3);
+}
+.contact {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f1f1f1;
+}
+
+.contact-name {
+    font-size: 16px;
+    color: black;
+    margin-right: 9px;
+}
+
+.contact-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #ccc;
+    border-radius: 50%;
+}
+
+.contact-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 10px;
+}
+
+.contacts-modal .chat-button ion-icon,
+.contacts-modal .call-button ion-icon {
+    font-size: 24px;
+    color: #000000;
+}
+
+.contacts-modal .chat-button,
+.contacts-modal .call-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: auto; 
+}
+
+.contacts-modal .chat-button:hover ion-icon,
+.contacts-modal .call-button:hover ion-icon {
+    color: #37b7c3;
+}
+
+
+.contacts-modal .close-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+}
+
+.contacts-modal .close-button ion-icon {
+    font-size: 24px;
+}
+
+.open-add-contact-button {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 1em;
+    width: 45%;
+    height: 45px;
+    border-radius: 6px;
+    outline: none;
+    border: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    font-size: 16px;
+    background-color: #071952;
+    color: #fff;
+    font-weight: 600;
+    transition: background-color 0.3s, color 0.3s; 
+}
+
+.open-add-contact-button:hover {
+    background-color: #fff;
+    color: #000000;
+
+}
+
+.add-contact-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 350px;
+    padding: 20px;
+    background: linear-gradient(135deg, #071952, #37B7C3);
+    border-radius: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    z-index: 1001;
+    color: white;
+    height: auto; 
+}
+
+.add-contact-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.add-contact-modal .close-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+}
+
+.add-contact-modal-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+    flex-grow: 1; 
+}
+
+.add-contact-modal-body input {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background: transparent;
+    border-radius: 8px; 
+    color: white;
+    outline: none;
+}
+
+.add-contact-modal-body input::placeholder {
+    color: #aaa; 
+}
+
+.add-contact-modal .save-button {
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 1em;
+    width: 45%;
+    height: 45px;
+    border-radius: 6px;
+    outline: none;
+    border: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    font-size: 16px;
+    background-color: #071952;
+    color: #fff;
+    font-weight: 600;
+    transition: background-color 0.3s, color 0.3s; 
+    margin-left: auto;  
+    margin-right: auto; 
+    display: block; 
+}
+
+.add-contact-modal .save-button:hover {
+    background-color: #fff;
+    color: #000000;
+}
+
+.error {
+    margin: 5px 0; 
+    font-size: 14px; 
+    color: red;
+    display: none; 
+    text-shadow:
+        1px 1px 0 rgba(0, 0, 0, 0.5), 
+        -1px -1px 0 rgba(0, 0, 0, 0.5), 
+        1px -1px 0 rgba(0, 0, 0, 0.5), 
+        -1px 1px 0 rgba(0, 0, 0, 0.5);
+}
