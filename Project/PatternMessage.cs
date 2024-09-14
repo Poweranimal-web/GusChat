@@ -9,5 +9,6 @@ namespace massage{
     }
     class StatusOkMessage{
         public string response{get;set;}
+        public string metaData{get;set;}
     }
 }

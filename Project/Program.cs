@@ -14,12 +14,12 @@ using Microsoft.Extensions.FileProviders;
 namespace project{
 class Program{
     public static WebApplicationBuilder builder;
-    static int Main(string[] args){
+    static int Main(string[] args){ 
         builder = WebApplication.CreateBuilder(args);
         builder.Services.AddSingleton<IAuthentication,JWTRS256Authentication>();
         builder.Services.AddSingleton<IFactory,AuthenticationFactory>();
         builder.Services.AddSingleton<AuthService>();
-        builder.Services.AddSingleton<IWebSocketHandler,TextSocketHandler>();
+        builder.Services.AddSingleton<TextSocketHandler>();
         builder.Services.AddAuthorization();
         builder.Services.AddAuthentication(x =>
         {
@@ -56,21 +56,22 @@ class Program{
         app.MapPost("/login", async(context) => {
             DB db = new DB(); 
             customers loginData = await context.Request.ReadFromJsonAsync<customers>();
-            bool exist_user = await db.customers.AnyAsync((user)=>user.tag == loginData.tag && user.password == loginData.password);
-            if (!exist_user){
+            customers exist_user = await db.customers.FirstOrDefaultAsync((user) => user.tag == loginData.tag && user.password == loginData.password);
+            if (exist_user == null){
                 await Results.Unauthorized().ExecuteAsync(context);
             }
             else{
                 AuthService auth = app.Services.GetService<AuthService>();
-                List<Claim> claims = new List<Claim>{new Claim("name", loginData.tag)};
+                List<Claim> claims = new List<Claim>{new Claim("name", loginData.tag), new Claim("room", exist_user.room_number)};
                 string token = auth.GetToken("JWT", context,  claims);
                 await Results.Text(token).ExecuteAsync(context);
             }
         });
         app.MapGet("/{code}", async(HttpContext context,string code)=>{
                 if (context.WebSockets.IsWebSocketRequest){
-                    IWebSocketHandler textMessage = app.Services.GetService<TextSocketHandler>();
+                    TextSocketHandler textMessage = app.Services.GetRequiredService<TextSocketHandler>();
                     WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
+                    textMessage.Add(webSocket);
                     await textMessage.HandlerMessage(context, webSocket);
                 }
                 else{
@@ -79,20 +80,22 @@ class Program{
             
         });
         app.MapGet("/", async(HttpContext context)=>{
-            if (context.WebSockets.IsWebSocketRequest){
-                    IWebSocketHandler textMessage = app.Services.GetRequiredService<IWebSocketHandler>();
-                    Console.WriteLine(textMessage.GetType());
-                    WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
-                    await textMessage.HandlerMessage(context, webSocket);
-            }
-            else{
-                await context.Response.SendFileAsync("static/html/chat.html");
-            }
+            // if (context.WebSockets.IsWebSocketRequest){
+            //         TextSocketHandler textMessage = app.Services.GetRequiredService<TextSocketHandler>();
+            //         WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
+            //         textMessage.Add(webSocket);
+            //         await textMessage.HandlerMessage(context, webSocket);
+            // }
+            // else{
+            await context.Response.SendFileAsync("static/html/chat.html");
+            // }
             
         });
         app.MapPost("/", [Authorize]async(HttpContext context)=>{
-                StatusOkMessage statusOkMessage = new StatusOkMessage(){response="OK"};
-                await context.Response.WriteAsJsonAsync<StatusOkMessage>(statusOkMessage);    
+                DB db = new DB();
+                customers user = await db.customers.FirstOrDefaultAsync((c)=> c.tag == Convert.ToString(context.User.FindFirst("name").Value));
+                StatusOkMessage statusOkMessage = new StatusOkMessage(){response="OK", metaData=user.room_number};
+                await context.Response.WriteAsJsonAsync<StatusOkMessage>(statusOkMessage); 
         });
         app.MapPost("/reg", async(context) => {
             DB db = new DB(); 

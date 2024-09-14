@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Net.WebSockets;
 using massage;
 using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
 
 namespace auth{
     interface IAuthentication{
@@ -89,19 +90,29 @@ namespace websocket{
    }
    class TextSocketHandler : IWebSocketHandler
    {
-        public async Task HandlerMessage(HttpContext http, WebSocket webSocket){
+        List<WebSocket> socket = new List<WebSocket>();
+        public async Task HandlerMessage(HttpContext http, WebSocket ws){
             byte[] buffer = new byte[1024*4];
-            WebSocketReceiveResult request = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None); 
+            WebSocketReceiveResult request = await ws.ReceiveAsync(new ArraySegment<byte>(buffer,0,buffer.Length), CancellationToken.None); 
             while(!request.CloseStatus.HasValue){
-                await webSocket.SendAsync(new ArraySegment<byte>(buffer),request.MessageType,request.EndOfMessage,CancellationToken.None);
-                request = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                foreach (WebSocket webSocket in socket){
+                    if (ws != webSocket){
+                        await webSocket.SendAsync(new ArraySegment<byte>(buffer,0,request.Count),request.MessageType,request.EndOfMessage,CancellationToken.None);
+                    }
+                }
+                request = await ws.ReceiveAsync(new ArraySegment<byte>(buffer,0,buffer.Length), CancellationToken.None);
                 if (request.Count > 0){
                     string jsonString = Encoding.UTF8.GetString(buffer);
-                    TextMessage message = JsonSerializer.Deserialize<TextMessage>(jsonString);
-                    Console.WriteLine("Name: {0}, message: {0}", message.tag,message.message);
+                    Console.WriteLine(jsonString);
+                    // TextMessage message = JsonSerializer.Deserialize<TextMessage>(jsonString);
+                    // Console.WriteLine("Name: {0}, message: {0}", message.tag,message.message);
                 }
             }
-            await webSocket.CloseAsync(request.CloseStatus.Value,request.CloseStatusDescription, CancellationToken.None);
+            await ws.CloseAsync(request.CloseStatus.Value,request.CloseStatusDescription, CancellationToken.None);
+            socket.Remove(ws);
+        }
+        public void Add(WebSocket ws){
+            socket.Add(ws);
         }
    }
    class FileSocketHandler : IWebSocketHandler

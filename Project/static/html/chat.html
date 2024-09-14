@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Telegram Clone</title>
     <link rel="stylesheet" href="/Static/css/chat.css">
-    <!-- <script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js" crossorigin="anonymous"></script> -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
@@ -199,7 +198,7 @@
                     <ion-icon name="people-outline"></ion-icon>
                     Create group chat
                 </button>
-                <button>
+                <button onclick="openContactsModal()">
                     <ion-icon name="person-outline"></ion-icon>
                     Contacts
                 </button>
@@ -217,6 +216,75 @@
                 </button>
             </div>
         </div>
+        <div class="contacts-modal" id="contactsModal" style="display: none;">
+            <div class="contacts-modal-header">
+                <h2>Contacts</h2>
+                <button class="close-button" id="closeContactsButton" onclick="closeContactsModal()">
+                    <ion-icon name="close-outline"></ion-icon>
+                </button>
+            </div>
+            <div class="contacts-modal-body">
+                <div class="contact">
+                    <div class="contact-icon"></div> <span class="contact-name">Сhat 1</span>
+                    <div class="contact-actions">
+                        <button class="chat-button" onclick="openChat('chat1', this.closest('.contact')); closeContactsModal(); closeSettings()">
+                            <ion-icon name="chatbubbles-outline"></ion-icon>
+                        </button>
+                        <button class="call-button">
+                            <ion-icon name="call-outline"></ion-icon>
+                        </button>
+                    </div>
+                </div>
+                <div class="contact">
+                    <div class="contact-icon"></div><span class="contact-name">Сhat 2</span>
+                    <div class="contact-actions">
+                        <button class="chat-button" onclick="openChat('chat1', this.closest('.contact')); closeContactsModal(); closeSettings()">
+                            <ion-icon name="chatbubbles-outline"></ion-icon>
+                        </button>
+                        <button class="call-button">
+                            <ion-icon name="call-outline"></ion-icon>
+                        </button>
+                    </div>
+                    
+                </div>
+                <div class="contact">
+                    <div class="contact-icon"></div><span class="contact-name">Сontact 3</span>
+                    <div class="contact-actions">
+                        <button class="chat-button" onclick="openChat('chat3', this.closest('.contact')); closeContactsModal(); closeSettings()">
+                            <ion-icon name="chatbubbles-outline"></ion-icon>
+                        </button>
+                        <button class="call-button">
+                            <ion-icon name="call-outline"></ion-icon>
+                        </button>
+                    </div>
+                    
+                </div>
+               
+            </div>
+            <div class="contacts-footer">
+                <button class="open-add-contact-button" onclick="openAddContactModal(); closeContactsModal()">
+                    Add New Contact
+                </button>
+            </div>
+            
+        </div>
+        <div class="add-contact-modal" id="addContactModal">
+            <div class="add-contact-modal-header">
+                <h2>Add New Contact</h2>
+                <button class="close-button" onclick="closeAddContactModal(); openContactsModal()"><ion-icon name="close-outline"></ion-icon></button>
+            </div>
+            <div class="add-contact-modal-body" id="addContactModalBody">
+                <input type="text" id="contactTag" placeholder="Tag">
+                <input type="text" id="contactEmail" placeholder="Email">
+        
+                <p class="error mail-alphabet-error" style="display: none;">Use lowercase Latin letters</p>
+                <p class="error incorrect-mail" style="display: none;">Use ukr.net or gmail.com</p>
+                <p class="error dog-error" style="display: none;">Expected use of @</p>
+        
+                <button class="save-button">Save</button>
+            </div>
+        </div>
+        
     </div>
     <script src="/Static/js/chat.js"></script>
 </body>

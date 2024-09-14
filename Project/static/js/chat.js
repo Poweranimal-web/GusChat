@@ -1,6 +1,13 @@
 /* scripts.js */
 let startSocket = false;
+let socket = null;
 document.addEventListener("DOMContentLoaded", async function (event) {
+    const emailField = document.getElementById('contactEmail');
+    const addContactModalBody = document.getElementById('addContactModalBody');
+    emailField.addEventListener("input", () => {
+        validateEmail();
+        adjustModalHeight();
+    });
     let response = await fetch("/",{
             method: "POST", 
             headers : {
@@ -19,23 +26,67 @@ document.addEventListener("DOMContentLoaded", async function (event) {
         let json_response = await response.json();
         if (json_response.response == "OK"){
             startSocket = true;
-            startSocketClient();
+            startPushSocketClient(json_response.metaData);
         }
     }
 });
-function startSocketClient(){
+function validateEmail() {
+    const emailField = document.getElementById('contactEmail');
+    const checkValidEmail = emailField.value.split('@');
+
+    const mailAlphabetError = document.querySelector('.mail-alphabet-error');
+    const dogValidError = document.querySelector('.dog-error');
+    const mailValidError = document.querySelector('.incorrect-mail');
+
+
+    if (/^[a-z0-9.]+$/.test(checkValidEmail[0])) {
+        mailAlphabetError.style.display = 'none';
+    } else {
+        mailAlphabetError.style.display = 'block';
+    }
+
+
+    if (emailField.value.includes("@")) {
+        if (checkValidEmail[1] && checkValidEmail[1].length >= 7) {
+            if (checkValidEmail[1] === 'gmail.com' || checkValidEmail[1] === 'ukr.net') {
+                mailValidError.style.display = 'none';
+            } else {
+                mailValidError.style.display = 'block';
+            }
+            dogValidError.style.display = 'none';
+        }
+    } else {
+        dogValidError.style.display = 'block';
+    }
+}
+function adjustModalHeight() {
+    const addContactModalBody = document.getElementById('addContactModalBody');
+    const modalErrors = addContactModalBody.querySelectorAll('.error');
+    let visibleErrors = 0;
+    modalErrors.forEach(error => {
+        if (error.style.display === 'block') {
+            visibleErrors += 1;
+        }
+    });
+    addContactModalBody.style.height = `calc(100% + ${visibleErrors * 20}px)`;
+}
+
+function startPushSocketClient(room){
     if(startSocket === true){
+        socket = new WebSocket("ws://" + location.host + "/"+ room);
         console.log("start socket");
-        let socket = new WebSocket("ws://" + location.host + "/");
         socket.addEventListener("open",(e) => {
-            console.log("[open] Соединение установлено");
-            console.log("Отправляем данные на сервер");
-            socket.send("Меня зовут Джон");
+            console.log("[open] Successfully connected");
         });
         socket.onmessage = function(event) {
-                console.log(`[message] Данные получены с сервера: ${event.data}`);
+            document.getElementById("chat1").innerHTML += `
+                <div class="message-container other">
+                        <img  class="message-icon other-icon" >
+                        <div class="message">
+                            ${event.data}
+                        </div>
+                </div>`;
         };
-            
         socket.onclose = function(event) {
                 if (event.wasClean) {
                     console.log(`[close] Соединение закрыто чисто, код=${event.code} причина=${event.reason}`);
@@ -51,30 +102,46 @@ function startSocketClient(){
     }
 }  
 function openChat(chatId, chatElement) {
-    const chatWindows = document.querySelectorAll('.chat-window');
-    const chatElements = document.querySelectorAll('.chat');
     const chatBack = document.getElementById('chatBack');
     const chatHeader = document.getElementById('chatHeader');
-    
+    const inputArea = document.getElementById('inputArea');
+    const welcomeMessage = document.getElementById('welcomeMessage');
+    let chatWindow = document.getElementById(chatId);
+    if (!chatWindow) {
+
+        chatWindow = document.createElement('div');
+        chatWindow.classList.add('chat-window');
+        chatWindow.id = chatId;
+        chatWindow.innerHTML = `<div class="no-messages">There are no messages yet</div>`;
+        chatBack.appendChild(chatWindow);
+
+
+        const newChat = document.createElement('div');
+        newChat.classList.add('chat');
+        newChat.innerHTML = `<div class="chat-icon"></div>${chatElement.querySelector('.contact-name').textContent}`;
+        newChat.setAttribute('onclick', `openChat('${chatId}', this)`);
+        document.querySelector('.chat-list').appendChild(newChat);
+    }
+    const chatWindows = document.querySelectorAll('.chat-window');
     chatWindows.forEach(window => window.style.display = 'none');
+    const chatElements = document.querySelectorAll('.chat');
     chatElements.forEach(element => element.classList.remove('selected'));
-    
-    document.getElementById(chatId).style.display = 'block';
-    document.getElementById('welcomeMessage').style.display = 'none';
-    document.getElementById('inputArea').style.display = 'flex';
+    chatWindow.style.display = 'block';
     chatElement.classList.add('selected');
-    
-    // Update chat header
-    const chatTitle = chatElement.textContent.trim();
+    const chatTitle = chatElement.querySelector('.contact-name')?.textContent.trim() || chatElement.textContent.trim();
     chatHeader.querySelector('.chat-header-title').textContent = chatTitle;
 
     chatHeader.style.display = 'flex';
+    inputArea.style.display = 'flex';
+    welcomeMessage.style.display = 'none'
     chatBack.style.backgroundColor = '#EBF4F6';
 }
 
 
 function openSettings() {
     document.getElementById('settingsModal').style.display = 'flex';
+    const contactModal = document.getElementById('addContactModal');
+    contactModal.style.display = 'none'
 }
 
 function closeSettings() {
@@ -98,21 +165,50 @@ document.addEventListener('click', function(event) {
     const attachmentMenu = document.getElementById('attachmentMenu');
     const modal = document.getElementById('settingsModal');
     const sidebar = document.getElementById('modalSidebar');
-
-    if (modal.style.display === 'flex' && !sidebar.contains(event.target) && !event.target.closest('.settings-button')) {
-        modal.style.display = 'none';
+    const contactsModal = document.getElementById('contactsModal');
+    const addContactsModal = document.getElementById('addContactModal');
+    if (contactsModal && contactsModal.style.display === 'flex') {
+        return; 
     }
-    // Close emoji menu if clicked outside
-    if (emojiMenu.style.display === 'block' && !emojiMenu.contains(event.target) && !event.target.closest('.emoji-button')) {
+
+    if (addContactsModal && addContactsModal.style.display === 'flex') {
+        return; 
+    }
+    if (modal.style.display === 'flex' && !sidebar.contains(event.target) && !event.target.closest('.settings-button') && !event.target.closest('#contactsModal')) {
+
+        modal.style.display = 'none'; 
+    }
+
+    if (emojiMenu.style.display === 'block' && 
+        !emojiMenu.contains(event.target) && 
+        !event.target.closest('.emoji-button')) {
+
         emojiMenu.style.display = 'none';
     }
+    if (attachmentMenu.style.display === 'block' && 
+        !attachmentMenu.contains(event.target) && 
+        !event.target.closest('.attachment-button')) {
 
-    // Close attachment menu if clicked outside
-    if (attachmentMenu.style.display === 'block' && !attachmentMenu.contains(event.target) && !event.target.closest('.attachment-button')) {
         attachmentMenu.style.display = 'none';
     }
 });
-
+function closeContactsModal() {
+    const contactsModal = document.getElementById('contactsModal');
+    contactsModal.style.display = 'none';
+}
+document.getElementById("inputText").addEventListener("keypress", (e)=>{
+    if (e.key == "Enter"){
+        let text = document.getElementById("inputText").value; 
+        document.getElementById("chat1").innerHTML += `
+                <div class="message-container user">
+                        <div class="message">
+                            ${text}
+                        </div>
+                        <img class="message-icon user-icon" >
+                </div>`;
+        socket.send(text);
+    }
+});
 function emoji(emoji){
     document.getElementById("inputText").value += document.getElementById(emoji).innerHTML; 
 }
@@ -135,6 +231,7 @@ const dragArea = document.querySelector('.drag-area');
 minimizeButton.addEventListener('click', () => {
     callWindow.style.display = 'none';   // Hide the main call window
     minimizedCallWindow.style.display = 'flex';  // Show the minimized window
+    
 });
 
 // Dragging functionality
@@ -189,3 +286,18 @@ resizeButton.addEventListener('click', () => {
         callWindow.style.display = 'flex';
     }
 });
+function openContactsModal() {
+    document.getElementById('contactsModal').style.display = 'flex';
+}
+
+function closeContactsModal() {
+    document.getElementById('contactsModal').style.display = 'none';
+}
+
+function openAddContactModal() {
+    document.getElementById('addContactModal').style.display = 'flex';
+}
+
+function closeAddContactModal() {
+    document.getElementById('addContactModal').style.display = 'none';
+}

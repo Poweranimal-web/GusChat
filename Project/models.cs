@@ -7,6 +7,8 @@ namespace models{
         public string password{get;set;}
         public string? phone_number{get;set;}
 
+        public string? room_number{get;set;}
+
     }
 
 
