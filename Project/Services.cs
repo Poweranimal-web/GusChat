@@ -122,3 +122,43 @@ namespace websocket{
         }
    }
 }
+namespace code{
+abstract class RandomGen {
+    int Length;
+    char[] symbols = new char[] {'1','2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','l',
+    'm','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+    public RandomGen(int length){
+        Length = length; 
+    }
+    public char[] GenerateCode(){
+        char[] code = new char[Length];
+        for(int i=0; i<Length ;i++){
+            Random num = new Random();
+            int index = num.Next(0,symbols.Length);
+            code[i] = symbols[index];
+
+        }
+        return code;
+    }
+
+}
+class RoomCodeGen : RandomGen{
+    public RoomCodeGen(int length) : base(length){
+
+    }
+}
+class CodeFabric{
+    RandomGen codeClass;
+    public RandomGen createInstance(string name, int length){
+        switch (name)
+        {
+            case "room":
+                codeClass = new RoomCodeGen(length);
+                return codeClass;
+            default:
+                return null;
+        }
+
+    }
+}
+}
